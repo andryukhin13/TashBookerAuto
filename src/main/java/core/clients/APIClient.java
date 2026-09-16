@@ -3,7 +3,6 @@ package core.clients;
 import core.settings.ApiEndpoints;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 
 import java.io.IOException;
@@ -60,6 +59,17 @@ public class APIClient {
         return getRequestSpec()
                 .when()
                 .get(ApiEndpoints.BOOKING.getPath()) // Используем ENUM для эндпоинта /booking
+                .then()
+                .statusCode(200) // Ожидаемый статус-код 200 OK
+                .extract()
+                .response();
+    }
+
+    // Get запрос на эндпоинт /booking/:id
+    public Response getBookingById(int id) {
+        return getRequestSpec()
+                .when()
+                .get(ApiEndpoints.BOOKING.getPath() + "/" + id) // Используем ENUM для эндпоинта /booking
                 .then()
                 .statusCode(200) // Ожидаемый статус-код 200 OK
                 .extract()
